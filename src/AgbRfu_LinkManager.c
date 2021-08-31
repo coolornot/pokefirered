@@ -16,6 +16,7 @@
 
 LINK_MANAGER lman;
 
+static void eu(void);
 static void rfu_LMAN_clearVariables(void);
 static void rfu_LMAN_settingPCSWITCH(u32 rand);
 static void rfu_LMAN_REQ_callback(u16 reqCommandId, u16 reqResult);
