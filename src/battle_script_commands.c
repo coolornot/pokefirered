@@ -307,6 +307,7 @@ static void atkF6_finishaction(void);
 static void atkF7_finishturn(void);
 // new commands
 static void atkF8_callasm(void);
+static void atkF9_cureprimarystatus(void);
 
 void (* const gBattleScriptingCommandsTable[])(void) =
 {
@@ -559,6 +560,7 @@ void (* const gBattleScriptingCommandsTable[])(void) =
     atkF6_finishaction,
     atkF7_finishturn,
     atkF8_callasm,
+    atkF9_cureprimarystatus,
 };
 
 struct StatFractions
@@ -9411,4 +9413,16 @@ static void atkF8_callasm(void) {
     u8 call = T2_READ_PTR(gBattlescriptCurrInstr + 1);
     call();
     gBattlescriptCurrInstr += 5;
+}
+static void atkF9_cureprimarystatus(void) {
+    gActiveBattler = (GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
+    if (gBattleMons[gActiveBattler].status1 != 0) {
+        gBattleMons[gActiveBattler].status1 = 0;
+        gBattlescriptCurrInstr += 6;
+      
+        BtlController_EmitSetMonData(0, 40, 0, 4, &gBattleMons[gActiveBattler].status1);
+        MarkBattlerForControllerExec(gActiveBattler);
+    }else{
+        gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 2);
+    }
 }
