@@ -9400,4 +9400,5 @@ static void atkF7_finishturn(void)
 static void atkF8_callasm(void) {
     u8 call = T2_READ_PTR(gBattlescriptCurrInstr + 1);
     call();
+    gBattlescriptCurrInstr += 5;
 }
