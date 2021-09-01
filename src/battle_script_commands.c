@@ -1933,7 +1933,15 @@ static void atk0F_resultmessage(void)
     u32 stringId = 0;
 
     if (!gBattleControllerExecFlags)
-    {
+    {   //adds anger point effect
+       /* if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT) && gCritMultiplier == 2 &&
+           gBattleMons[gBattlerTarget].ability == ABILITY_ANGER_POINT && 
+           gBattleMons[gBattlerTarget].hp != 0 && !(gBattleMons[gBattlerTarget].status2 & STATUS2_SUBSTITUTE)
+           && gBattleMons[gBattlerTarget].attackstat != 12) {
+        BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_AngerPoint;
+            gStringLoaderRam = MaxesAtkMsg; */ //check if it's all ok on this first
+        }
         if (gMoveResultFlags & MOVE_RESULT_MISSED && (!(gMoveResultFlags & MOVE_RESULT_DOESNT_AFFECT_FOE) || gBattleCommunication[6] > 2))
         {
             stringId = gMissStringIds[gBattleCommunication[6]];
