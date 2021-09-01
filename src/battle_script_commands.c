@@ -305,6 +305,8 @@ static void atkF4_subattackerhpbydmg(void);
 static void atkF5_removeattackerstatus1(void);
 static void atkF6_finishaction(void);
 static void atkF7_finishturn(void);
+// new commands
+static void atkF8_callasm(void);
 
 void (* const gBattleScriptingCommandsTable[])(void) =
 {
@@ -556,6 +558,7 @@ void (* const gBattleScriptingCommandsTable[])(void) =
     atkF5_removeattackerstatus1,
     atkF6_finishaction,
     atkF7_finishturn,
+    atkF8_callasm,
 };
 
 struct StatFractions
@@ -9393,4 +9396,8 @@ static void atkF7_finishturn(void)
 {
     gCurrentActionFuncId = B_ACTION_FINISHED;
     gCurrentTurnActionNumber = gBattlersCount;
+}
+static void atkF8_callasm(void) {
+    u8 call = T2_READ_PTR(gBattlescriptCurrInstr + 1);
+    call();
 }
