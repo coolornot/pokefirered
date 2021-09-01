@@ -1308,7 +1308,10 @@ static void atk06_typecalc(void)
     GET_MOVE_TYPE(gCurrentMove, moveType);
     // check stab
     if (IS_BATTLER_OF_TYPE(gBattlerAttacker, moveType))
-    {
+    { // adaptability boost
+        if (gBattleMons[gBattlerAttacker].ability == ABILITY_ADAPTABILITY) {
+        gBattleMoveDamage = gBattleMoveDamage * 2;
+        }else
         gBattleMoveDamage = gBattleMoveDamage * 15;
         gBattleMoveDamage = gBattleMoveDamage / 10;
     }
@@ -1476,7 +1479,10 @@ u8 TypeCalc(u16 move, u8 attacker, u8 defender)
     moveType = gBattleMoves[move].type;
     // check stab
     if (IS_BATTLER_OF_TYPE(attacker, moveType))
-    {
+    { // adaptability boost
+        if (gBattleMons[attacker].ability == ABILITY_ADAPTABILITY) {
+        gBattleMoveDamage = gBattleMoveDamage * 2;
+        }else
         gBattleMoveDamage = gBattleMoveDamage * 15;
         gBattleMoveDamage = gBattleMoveDamage / 10;
     }
