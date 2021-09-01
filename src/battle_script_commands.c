@@ -308,6 +308,8 @@ static void atkF7_finishturn(void);
 // new commands
 static void atkF8_callasm(void);
 static void atkF9_cureprimarystatus(void);
+static void atkFA_setword(void);
+static void atkFB_jumpifabilityinlist(void);
 
 void (* const gBattleScriptingCommandsTable[])(void) =
 {
@@ -561,6 +563,8 @@ void (* const gBattleScriptingCommandsTable[])(void) =
     atkF7_finishturn,
     atkF8_callasm,
     atkF9_cureprimarystatus,
+    atkFA_setword,
+    atkFB_jumpifabilityinlist,
 };
 
 struct StatFractions
@@ -9410,7 +9414,7 @@ static void atkF7_finishturn(void)
     gCurrentTurnActionNumber = gBattlersCount;
 }
 static void atkF8_callasm(void) {
-    u8 call = T2_READ_PTR(gBattlescriptCurrInstr + 1);
+    u8 call = T1_READ_PTR(gBattlescriptCurrInstr + 1);
     call();
     gBattlescriptCurrInstr += 5;
 }
@@ -9426,3 +9430,35 @@ static void atkF9_cureprimarystatus(void) {
         gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 2);
     }
 }
+static void atkFA_setword(void) {
+     u32 *memWord = T2_READ_PTR(gBattlescriptCurrInstr + 1);
+     u32 val = T2_READ_32(gBattlescriptCurrInstr + 5);
+    *memWord == val;
+    gBattlescriptCurrInstr += 9;
+}
+/*static void atkFB_jumpifabilityinlist(void) {
+    u32 *memWord = T2_READ_PTR(gBattlescriptCurrInstr + 2);
+    u8 ability = gBattleMons[(GetBattlerForBattleScript(gBattlescriptCurrInstr[1])].ability;
+    u8 effect = false;
+    u8 id, i = 0;
+    u16 end;
+    do {
+        end = T2_READ_16(*memWord[i]);
+        if (end != METRONOME_FORBIDDEN_END) {
+            id = *memWord[i];
+            i++;
+            if (id == ability) {
+            effect = true;
+                i = 0;
+            }
+        }else {
+           i = 0;
+        }
+        }
+    }while(i > 0) 
+        if (effect) {
+            gBattlescriptCurrInstr = T2_READ_PTR(gBattlescriptCurrInstr + 6);
+        }else {
+            gBattlescriptCurrInstr += 10;
+    }
+} */ //check this func
